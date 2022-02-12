@@ -1,0 +1,15 @@
+overwrite: true
+schema: ${NEXT_PUBLIC_GRAPHCMS_ENDPOINT}
+documents: graphql/**/*.graphql
+generates:
+  graphql/generated.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+hooks:
+  afterAllFileWrite:
+    - eslint --fix
+    - prettier --write
