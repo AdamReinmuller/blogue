@@ -1,5 +1,6 @@
 import { ApolloProvider } from "@apollo/client";
 import type { AppProps } from "next/app";
+import { Toaster } from "react-hot-toast";
 
 import { Layout } from "../components";
 import { useApollo } from "../lib/apolloClient";
@@ -14,6 +15,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <Layout>
         <Component {...pageProps} />;
       </Layout>
+      <Toaster position="bottom-center" />
     </ApolloProvider>
   );
 };

@@ -2,12 +2,12 @@ import Image from "next/image";
 import moment from "moment";
 import { default as NextLink } from "next/link";
 
-import { PostType } from "../graphql";
+import { PostsType } from "../graphql";
 
 import { Link } from ".";
 
 type PostCardProps = {
-  post: PostType;
+  post: PostsType[0];
 };
 
 const PostCard = ({ post }: PostCardProps) => {
@@ -23,7 +23,7 @@ const PostCard = ({ post }: PostCardProps) => {
           objectFit="cover"
         />
       </div>
-      <h1 className="mb-8 cursor-pointer text-center text-3xl font-semibold transition duration-700 hover:text-green-600">
+      <h1 className="mb-8 cursor-pointer text-center text-3xl font-semibold transition duration-700 line-clamp-3 hover:-translate-y-1 hover:text-cyan-600">
         <NextLink href={`/post/${post.slug}`}>{post.title}</NextLink>
       </h1>
       <div className="flex flex-col items-center justify-evenly gap-4 text-center sm:flex-row">
@@ -39,10 +39,10 @@ const PostCard = ({ post }: PostCardProps) => {
             {author!.name}
           </p>
         </div>
-        <div className="font-mediu flex items-center justify-center gap-1 text-gray-700">
+        <div className="flex items-center justify-center gap-1 font-medium text-gray-700">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-green-800"
+            className="h-6 w-6 text-cyan-800"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

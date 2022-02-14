@@ -1,8 +1,9 @@
-import { PostsQuery, SimilarPostsQuery } from "./generated";
+import { PostQuery, PostsQuery, SimilarPostsQuery } from "./generated";
+
+// export type PostType = Exclude<PostQuery["post"], null | undefined>;
+export type PostType = PostQuery["post"];
 
 export type PostsType = PostsQuery["posts"];
-
-export type PostType = PostsQuery["posts"][0];
 
 export type SimilarPostsType = SimilarPostsQuery["posts"];
 

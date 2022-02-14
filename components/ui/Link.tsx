@@ -22,7 +22,7 @@ const Link = ({ href, children, className = "", ...props }: LinkProps) => {
       <a
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`inline-block cursor-pointer rounded-lg bg-green-600 px-8 py-3 text-lg font-medium text-white ${className}`}
+        className={`inline-block cursor-pointer rounded-lg bg-cyan-600 px-8 py-3 text-lg font-medium text-white ${className}`}
         {...props}
       >
         <div className="flex items-center justify-center gap-4">

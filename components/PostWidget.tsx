@@ -1,15 +1,14 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { PostType, SimilarPostsType } from "../graphql";
 import { useSimilarPostsLazyQuery } from "../graphql/generated";
 import moment from "moment";
 
 type PostWidgetProps = {
   children?: ReactNode;
   categories?: string[];
-  slug?: PostType["slug"];
+  slug?: string;
 };
 
 const PostWidget = ({ categories, slug }: PostWidgetProps) => {
@@ -24,11 +23,11 @@ const PostWidget = ({ categories, slug }: PostWidgetProps) => {
     }
   }, [categories, slug, getSimilarPosts]);
 
-  if (!data || loading) {
+  if (loading) {
     return <p>Loading ...</p>;
   }
 
-  if (error) {
+  if (!data || error) {
     return <p>Error! {error}</p>;
   }
 
@@ -42,8 +41,11 @@ const PostWidget = ({ categories, slug }: PostWidgetProps) => {
       </h3>
       <div className="flex flex-col gap-4">
         {relevantPosts?.map((post) => (
-          <div className="flex w-full items-start" key={post.title}>
-            <div className="flex flex-col justify-center gap-1">
+          <div
+            className="flex w-full flex-col items-start gap-2"
+            key={post.title}
+          >
+            <div className="flex flex-row items-center justify-center gap-4">
               <div className="relative flex h-16 w-16 flex-none">
                 <Image
                   layout="fill"
@@ -53,14 +55,13 @@ const PostWidget = ({ categories, slug }: PostWidgetProps) => {
                   className="rounded-full"
                 />
               </div>
-              <div className="ml-4 flex-grow"></div>
-              <p className="whitespace-nowrap text-center text-xs text-gray-500">
-                {moment(post.createdAt).format("MMM DD, YYYY")}
-              </p>
+              <div className="flex items-center justify-center transition duration-700 line-clamp-3 hover:-translate-y-1 hover:text-cyan-600">
+                <Link href={`/post/${post.slug}`}>{post.title}</Link>
+              </div>
             </div>
-            <div className="flex items-center justify-center pt-2 text-center transition duration-700 line-clamp-3 hover:-translate-y-1 hover:text-green-600">
-              <Link href={`/post/${post.slug}`}>{post.title}</Link>
-            </div>
+            <p className="whitespace-nowrap text-center text-xs text-gray-500">
+              {moment(post.createdAt).format("MMM DD, YYYY")}
+            </p>
           </div>
         ))}
       </div>

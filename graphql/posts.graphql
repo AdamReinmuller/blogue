@@ -57,3 +57,34 @@ query SimilarPosts(
     createdAt
   }
 }
+
+query Post($slug: String!) {
+  post(where: { slug: $slug }) {
+    id
+    title
+    slug
+    excerpt
+    featuredImage {
+      id
+      url
+    }
+    createdAt
+    author {
+      name
+      bio
+      id
+      photo {
+        id
+        url
+      }
+    }
+    categories {
+      id
+      name
+      slug
+    }
+    content {
+      raw
+    }
+  }
+}

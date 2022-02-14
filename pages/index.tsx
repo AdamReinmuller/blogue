@@ -2,6 +2,7 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 
 import { Categories, PostCard, PostWidget } from "../components";
+import { PostType } from "../graphql";
 import { PostsDocument, usePostsQuery } from "../graphql/generated";
 import { addApolloState, initializeApollo } from "../lib/apolloClient";
 
@@ -42,6 +43,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   await apolloClient.query({
     query: PostsDocument,
+    variables: { first: 100 },
   });
 
   return addApolloState(apolloClient, {
