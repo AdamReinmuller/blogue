@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
+import { useCallback } from "react";
 
 import {
   Author,

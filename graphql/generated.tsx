@@ -1659,6 +1659,7 @@ export type Comment = Node & {
   /** The unique identifier */
   id: Scalars["ID"];
   name: Scalars["String"];
+  post?: Maybe<Post>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars["DateTime"]>;
   /** User that last published this document */
@@ -1686,6 +1687,10 @@ export type CommentHistoryArgs = {
   limit?: Scalars["Int"];
   skip?: Scalars["Int"];
   stageOverride?: InputMaybe<Stage>;
+};
+
+export type CommentPostArgs = {
+  locales?: InputMaybe<Array<Locale>>;
 };
 
 export type CommentPublishedByArgs = {
@@ -1728,6 +1733,7 @@ export type CommentCreateInput = {
   createdAt?: InputMaybe<Scalars["DateTime"]>;
   email: Scalars["String"];
   name: Scalars["String"];
+  post?: InputMaybe<PostCreateOneInlineInput>;
   updatedAt?: InputMaybe<Scalars["DateTime"]>;
 };
 
@@ -1856,6 +1862,7 @@ export type CommentManyWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars["String"]>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars["String"]>;
+  post?: InputMaybe<PostWhereInput>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars["DateTime"]>;
@@ -1914,6 +1921,7 @@ export type CommentUpdateInput = {
   comment?: InputMaybe<Scalars["String"]>;
   email?: InputMaybe<Scalars["String"]>;
   name?: InputMaybe<Scalars["String"]>;
+  post?: InputMaybe<PostUpdateOneInlineInput>;
 };
 
 export type CommentUpdateManyInlineInput = {
@@ -2084,6 +2092,7 @@ export type CommentWhereInput = {
   name_not_starts_with?: InputMaybe<Scalars["String"]>;
   /** All values starting with the given string. */
   name_starts_with?: InputMaybe<Scalars["String"]>;
+  post?: InputMaybe<PostWhereInput>;
   publishedAt?: InputMaybe<Scalars["DateTime"]>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars["DateTime"]>;
@@ -3061,6 +3070,7 @@ export type Post = Node & {
   __typename?: "Post";
   author?: Maybe<Author>;
   categories: Array<Category>;
+  comments: Array<Comment>;
   content: PostContentRichText;
   /** The time the document was created */
   createdAt: Scalars["DateTime"];
@@ -3103,6 +3113,17 @@ export type PostCategoriesArgs = {
   orderBy?: InputMaybe<CategoryOrderByInput>;
   skip?: InputMaybe<Scalars["Int"]>;
   where?: InputMaybe<CategoryWhereInput>;
+};
+
+export type PostCommentsArgs = {
+  after?: InputMaybe<Scalars["String"]>;
+  before?: InputMaybe<Scalars["String"]>;
+  first?: InputMaybe<Scalars["Int"]>;
+  last?: InputMaybe<Scalars["Int"]>;
+  locales?: InputMaybe<Array<Locale>>;
+  orderBy?: InputMaybe<CommentOrderByInput>;
+  skip?: InputMaybe<Scalars["Int"]>;
+  where?: InputMaybe<CommentWhereInput>;
 };
 
 export type PostCreatedByArgs = {
@@ -3184,6 +3205,7 @@ export type PostContentRichTextEmbeddedTypes =
 export type PostCreateInput = {
   author?: InputMaybe<AuthorCreateOneInlineInput>;
   categories?: InputMaybe<CategoryCreateManyInlineInput>;
+  comments?: InputMaybe<CommentCreateManyInlineInput>;
   content: Scalars["RichTextAST"];
   createdAt?: InputMaybe<Scalars["DateTime"]>;
   excerpt: Scalars["String"];
@@ -3231,6 +3253,9 @@ export type PostManyWhereInput = {
   categories_every?: InputMaybe<CategoryWhereInput>;
   categories_none?: InputMaybe<CategoryWhereInput>;
   categories_some?: InputMaybe<CategoryWhereInput>;
+  comments_every?: InputMaybe<CommentWhereInput>;
+  comments_none?: InputMaybe<CommentWhereInput>;
+  comments_some?: InputMaybe<CommentWhereInput>;
   createdAt?: InputMaybe<Scalars["DateTime"]>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars["DateTime"]>;
@@ -3386,6 +3411,7 @@ export enum PostOrderByInput {
 export type PostUpdateInput = {
   author?: InputMaybe<AuthorUpdateOneInlineInput>;
   categories?: InputMaybe<CategoryUpdateManyInlineInput>;
+  comments?: InputMaybe<CommentUpdateManyInlineInput>;
   content?: InputMaybe<Scalars["RichTextAST"]>;
   excerpt?: InputMaybe<Scalars["String"]>;
   featuredImage?: InputMaybe<AssetUpdateOneInlineInput>;
@@ -3475,6 +3501,9 @@ export type PostWhereInput = {
   categories_every?: InputMaybe<CategoryWhereInput>;
   categories_none?: InputMaybe<CategoryWhereInput>;
   categories_some?: InputMaybe<CategoryWhereInput>;
+  comments_every?: InputMaybe<CommentWhereInput>;
+  comments_none?: InputMaybe<CommentWhereInput>;
+  comments_some?: InputMaybe<CommentWhereInput>;
   createdAt?: InputMaybe<Scalars["DateTime"]>;
   /** All values greater than the given value. */
   createdAt_gt?: InputMaybe<Scalars["DateTime"]>;
@@ -5451,6 +5480,57 @@ export type CategoriesQuery = {
   }>;
 };
 
+export type CommentsQueryVariables = Exact<{
+  slug: Scalars["String"];
+}>;
+
+export type CommentsQuery = {
+  __typename?: "Query";
+  comments: Array<{
+    __typename?: "Comment";
+    name: string;
+    id: string;
+    email: string;
+    comment: string;
+    createdAt: any;
+  }>;
+};
+
+export type CreateCommentMutationVariables = Exact<{
+  name: Scalars["String"];
+  email: Scalars["String"];
+  comment: Scalars["String"];
+  slug: Scalars["String"];
+}>;
+
+export type CreateCommentMutation = {
+  __typename?: "Mutation";
+  createComment?: {
+    __typename?: "Comment";
+    comment: string;
+    id: string;
+    name: string;
+    stage: Stage;
+    email: string;
+  } | null;
+};
+
+export type PublishCommentMutationVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type PublishCommentMutation = {
+  __typename?: "Mutation";
+  publishComment?: {
+    __typename?: "Comment";
+    comment: string;
+    id: string;
+    name: string;
+    stage: Stage;
+    email: string;
+  } | null;
+};
+
 export type PostsQueryVariables = Exact<{
   first?: InputMaybe<Scalars["Int"]>;
   orderBy?: InputMaybe<PostOrderByInput>;
@@ -5538,6 +5618,37 @@ export type PostQuery = {
   } | null;
 };
 
+export type FeaturedPostsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars["Int"]>;
+  orderBy?: InputMaybe<PostOrderByInput>;
+}>;
+
+export type FeaturedPostsQuery = {
+  __typename?: "Query";
+  posts: Array<{
+    __typename?: "Post";
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    createdAt: any;
+    featuredImage: { __typename?: "Asset"; id: string; url: string };
+    author?: {
+      __typename?: "Author";
+      name: string;
+      bio?: string | null;
+      id: string;
+      photo?: { __typename?: "Asset"; id: string; url: string } | null;
+    } | null;
+    categories: Array<{
+      __typename?: "Category";
+      id: string;
+      name: string;
+      slug: string;
+    }>;
+  }>;
+};
+
 export const CategoriesDocument = gql`
   query Categories {
     categories {
@@ -5594,6 +5705,186 @@ export type CategoriesLazyQueryHookResult = ReturnType<
 export type CategoriesQueryResult = Apollo.QueryResult<
   CategoriesQuery,
   CategoriesQueryVariables
+>;
+export const CommentsDocument = gql`
+  query Comments($slug: String!) {
+    comments(where: { post: { slug: $slug } }) {
+      name
+      id
+      email
+      comment
+      createdAt
+    }
+  }
+`;
+
+/**
+ * __useCommentsQuery__
+ *
+ * To run a query within a React component, call `useCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommentsQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useCommentsQuery(
+  baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(
+    CommentsDocument,
+    options
+  );
+}
+export function useCommentsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CommentsQuery,
+    CommentsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CommentsQuery, CommentsQueryVariables>(
+    CommentsDocument,
+    options
+  );
+}
+export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
+export type CommentsLazyQueryHookResult = ReturnType<
+  typeof useCommentsLazyQuery
+>;
+export type CommentsQueryResult = Apollo.QueryResult<
+  CommentsQuery,
+  CommentsQueryVariables
+>;
+export const CreateCommentDocument = gql`
+  mutation CreateComment(
+    $name: String!
+    $email: String!
+    $comment: String!
+    $slug: String!
+  ) {
+    createComment(
+      data: {
+        name: $name
+        email: $email
+        comment: $comment
+        post: { connect: { slug: $slug } }
+      }
+    ) {
+      comment
+      id
+      name
+      stage
+      email
+    }
+  }
+`;
+export type CreateCommentMutationFn = Apollo.MutationFunction<
+  CreateCommentMutation,
+  CreateCommentMutationVariables
+>;
+
+/**
+ * __useCreateCommentMutation__
+ *
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      email: // value for 'email'
+ *      comment: // value for 'comment'
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useCreateCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCommentMutation,
+    CreateCommentMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateCommentMutation,
+    CreateCommentMutationVariables
+  >(CreateCommentDocument, options);
+}
+export type CreateCommentMutationHookResult = ReturnType<
+  typeof useCreateCommentMutation
+>;
+export type CreateCommentMutationResult =
+  Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
+  CreateCommentMutation,
+  CreateCommentMutationVariables
+>;
+export const PublishCommentDocument = gql`
+  mutation PublishComment($id: ID!) {
+    publishComment(to: PUBLISHED, where: { id: $id }) {
+      comment
+      id
+      name
+      stage
+      email
+    }
+  }
+`;
+export type PublishCommentMutationFn = Apollo.MutationFunction<
+  PublishCommentMutation,
+  PublishCommentMutationVariables
+>;
+
+/**
+ * __usePublishCommentMutation__
+ *
+ * To run a mutation, you first call `usePublishCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePublishCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [publishCommentMutation, { data, loading, error }] = usePublishCommentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePublishCommentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    PublishCommentMutation,
+    PublishCommentMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    PublishCommentMutation,
+    PublishCommentMutationVariables
+  >(PublishCommentDocument, options);
+}
+export type PublishCommentMutationHookResult = ReturnType<
+  typeof usePublishCommentMutation
+>;
+export type PublishCommentMutationResult =
+  Apollo.MutationResult<PublishCommentMutation>;
+export type PublishCommentMutationOptions = Apollo.BaseMutationOptions<
+  PublishCommentMutation,
+  PublishCommentMutationVariables
 >;
 export const PostsDocument = gql`
   query Posts($first: Int = 12, $orderBy: PostOrderByInput = createdAt_DESC) {
@@ -5817,3 +6108,87 @@ export function usePostLazyQuery(
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
+export const FeaturedPostsDocument = gql`
+  query FeaturedPosts(
+    $first: Int = 12
+    $orderBy: PostOrderByInput = createdAt_DESC
+  ) {
+    posts(orderBy: $orderBy, first: $first, where: { featuredPost: true }) {
+      id
+      title
+      slug
+      excerpt
+      featuredImage {
+        id
+        url
+      }
+      createdAt
+      author {
+        name
+        bio
+        id
+        photo {
+          id
+          url
+        }
+      }
+      categories {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
+/**
+ * __useFeaturedPostsQuery__
+ *
+ * To run a query within a React component, call `useFeaturedPostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFeaturedPostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFeaturedPostsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      orderBy: // value for 'orderBy'
+ *   },
+ * });
+ */
+export function useFeaturedPostsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    FeaturedPostsQuery,
+    FeaturedPostsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FeaturedPostsQuery, FeaturedPostsQueryVariables>(
+    FeaturedPostsDocument,
+    options
+  );
+}
+export function useFeaturedPostsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FeaturedPostsQuery,
+    FeaturedPostsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FeaturedPostsQuery, FeaturedPostsQueryVariables>(
+    FeaturedPostsDocument,
+    options
+  );
+}
+export type FeaturedPostsQueryHookResult = ReturnType<
+  typeof useFeaturedPostsQuery
+>;
+export type FeaturedPostsLazyQueryHookResult = ReturnType<
+  typeof useFeaturedPostsLazyQuery
+>;
+export type FeaturedPostsQueryResult = Apollo.QueryResult<
+  FeaturedPostsQuery,
+  FeaturedPostsQueryVariables
+>;

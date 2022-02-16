@@ -2,7 +2,7 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 
 import { Categories, PostCard, PostWidget } from "../components";
-import { PostType } from "../graphql";
+import { FeaturedPosts } from "../components";
 import { PostsDocument, usePostsQuery } from "../graphql/generated";
 import { addApolloState, initializeApollo } from "../lib/apolloClient";
 
@@ -21,6 +21,7 @@ const Home = () => {
         <title>Blogue</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <FeaturedPosts />
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
         <div className="col-span-1 lg:col-span-8">
           {posts.map((post) => (

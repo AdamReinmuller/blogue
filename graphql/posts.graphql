@@ -88,3 +88,34 @@ query Post($slug: String!) {
     }
   }
 }
+
+query FeaturedPosts(
+  $first: Int = 12
+  $orderBy: PostOrderByInput = createdAt_DESC
+) {
+  posts(orderBy: $orderBy, first: $first, where: { featuredPost: true }) {
+    id
+    title
+    slug
+    excerpt
+    featuredImage {
+      id
+      url
+    }
+    createdAt
+    author {
+      name
+      bio
+      id
+      photo {
+        id
+        url
+      }
+    }
+    categories {
+      id
+      name
+      slug
+    }
+  }
+}

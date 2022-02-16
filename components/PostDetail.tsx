@@ -49,6 +49,7 @@ const PostDetail = ({ post }: PostDetailProps) => {
         <Image
           src={post.featuredImage.url}
           alt="featured image"
+          priority
           layout="fill"
           objectFit="cover"
           className="shadow-lg lg:rounded-lg"
