@@ -1,7 +1,6 @@
-# Blogue blog fun project with GraphCMS
+# Blogue blog fun project
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
-Simple project for fun
+Fun project to practice graphcms and graphql
 
 ## Tech Stack
 
@@ -13,3 +12,7 @@ Simple project for fun
 ## Website link
 
 Check it out at: [link](https://blogue.vercel.app/)
+
+### Notes
+
+It could be optimized better using data fetching via get static props solely but I wanted to play around with codegen hooks.
