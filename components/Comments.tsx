@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import parse from "html-react-parser";
 
 import { useCommentsQuery } from "../graphql/generated";
+import { Loader } from ".";
 
 type CommentsProps = {
   children?: ReactNode;
@@ -15,7 +16,7 @@ const Comments = ({ slug }: CommentsProps) => {
   });
 
   if (loading) {
-    return <p>Loading ...</p>;
+    return <Loader />;
   }
 
   if (!data || error) {

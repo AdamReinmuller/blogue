@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { Loader } from ".";
 import { useCategoriesQuery } from "../graphql/generated";
 
 const Header = () => {
   const { data, loading, error } = useCategoriesQuery();
 
   if (loading) {
-    return <p>Loading ...</p>;
+    return <Loader />;
   }
 
   if (!data || error) {

@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { useSimilarPostsLazyQuery } from "../graphql/generated";
 import moment from "moment";
+import { Loader } from ".";
 
 type PostWidgetProps = {
   children?: ReactNode;
@@ -24,7 +25,7 @@ const PostWidget = ({ categories, slug }: PostWidgetProps) => {
   }, [categories, slug, getSimilarPosts]);
 
   if (loading) {
-    return <p>Loading ...</p>;
+    return <Loader />;
   }
 
   if (!data || error) {
