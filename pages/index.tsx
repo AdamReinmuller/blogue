@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
 
-import { Categories, PostCard, PostWidget } from "../components";
+import { Categories, Loader, PostCard, PostWidget } from "../components";
 import { FeaturedPosts } from "../components";
 import { PostsDocument, usePostsQuery } from "../graphql/generated";
 import { addApolloState, initializeApollo } from "../lib/apolloClient";
@@ -10,7 +10,7 @@ const Home = () => {
   const { data, loading, error } = usePostsQuery();
 
   if (!data || loading || error) {
-    return <div>LOADING OR ERROR</div>;
+    return <Loader />;
   }
 
   const { posts } = data;
