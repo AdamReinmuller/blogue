@@ -1,12 +1,7 @@
 import Link from "next/link";
-import { ReactNode } from "react";
 import { useCategoriesQuery } from "../graphql/generated";
 
-type CategoriesProps = {
-  children?: ReactNode;
-};
-
-const Categories = ({}: CategoriesProps) => {
+const Categories = () => {
   const { data, loading, error } = useCategoriesQuery();
 
   if (loading) {

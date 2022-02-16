@@ -1,5 +1,5 @@
 import moment from "moment";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import parse from "html-react-parser";
 
 import { useCommentsQuery } from "../graphql/generated";

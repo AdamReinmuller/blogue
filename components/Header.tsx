@@ -1,13 +1,7 @@
-import { ReactNode, useContext } from "react";
-
 import Link from "next/link";
 import { useCategoriesQuery } from "../graphql/generated";
 
-type HeaderProps = {
-  children?: ReactNode;
-};
-
-const Header = ({}: HeaderProps) => {
+const Header = () => {
   const { data, loading, error } = useCategoriesQuery();
 
   if (loading) {

@@ -2,7 +2,6 @@ import { ReactNode, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
-  CommentsDocument,
   useCommentsQuery,
   useCreateCommentMutation,
   usePublishCommentMutation,
@@ -18,12 +17,6 @@ type Inputs = {
   email: string;
   comment: string;
   saveUser: boolean;
-};
-
-const style = {
-  borderRadius: "4px",
-  background: "#333",
-  color: "#fff",
 };
 
 const getStoredName = () => {
