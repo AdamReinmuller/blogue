@@ -12,4 +12,4 @@ Simple project for fun
 
 ## Website link
 
-Check it out at: [link]()
+Check it out at: [link](https://blogue.vercel.app/)
