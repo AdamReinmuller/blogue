@@ -1,11 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import {
   Author,
   Categories,
   Comments,
   CommentsForm,
+  Loader,
   PostDetail,
   PostWidget,
 } from "../../components";
@@ -18,6 +20,12 @@ type PostProps = {
 };
 
 const Post = ({ post }: PostProps) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <Loader />;
+  }
+
   if (!post) {
     return <div>Post does not exist!</div>;
   }
@@ -63,7 +71,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: params,
-    fallback: false,
+    fallback: true,
   };
 };
 

@@ -119,3 +119,40 @@ query FeaturedPosts(
     }
   }
 }
+
+query GetCategoryPost(
+  $slug: String!
+  $first: Int = 12
+  $orderBy: PostOrderByInput = createdAt_DESC
+) {
+  postsConnection(
+    orderBy: $orderBy
+    first: $first
+    where: { categories_some: { slug: $slug } }
+  ) {
+    edges {
+      cursor
+      node {
+        author {
+          bio
+          name
+          id
+          photo {
+            url
+          }
+        }
+        createdAt
+        slug
+        title
+        excerpt
+        featuredImage {
+          url
+        }
+        categories {
+          name
+          slug
+        }
+      }
+    }
+  }
+}
